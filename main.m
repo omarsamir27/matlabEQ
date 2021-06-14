@@ -14,10 +14,12 @@ for i = 4:12
     gains(i-3)=str2double(answer(i));
 end 
 %%choose filter
-if(str2double(answer(3))-1)
+if(str2double(answer(3))==2)
+myeq = iirEQ(gains,data,fs);
+elseif(str2double(answer(3))==1)
 myeq = iirEQ(gains,data,fs);
 else
-myeq = iirEQ(gains,data,fs);
+    msgbox('THIS OPTION IS NOT AVAILABLE!');
 end
 out = myeq.EqlzdAudio;
 player = audioplayer(out,fs);

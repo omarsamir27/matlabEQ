@@ -43,7 +43,6 @@ classdef iirEQ
         end
         function eqlzd = eqaudio(obj,audio)
             eqlzd = zeros(size(audio,1),size(audio,2));
-            filterer = @(filtercoeff,i) filter(obj.gains(i)*filtercoeff{1},filtercoeff{2},audio);
             coeffecients = {obj.from0to170;...
                     obj.from170to310;...
                     obj.from310to600;...
@@ -54,7 +53,8 @@ classdef iirEQ
                     obj.from12Kto14K;...
                     obj.from14kto16K};
             for i = 1:9
-                eqlzd = filterer(coeffecients{i},i) + eqlzd;
+                currentcoeff = coeffecients{i};
+                eqlzd = filter(obj.gains(i)*currentcoeff{1},currentcoeff{2},audio) + eqlzd;
             end            
         end
     end

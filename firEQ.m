@@ -9,10 +9,9 @@ classdef firEQ
     methods
         function obj = firEQ(gains,audio,fs)
             obj.gains = gains;
-            fs = fs/2;
+            fn = fs/2;
             for i = 1:9
-                obj.coeffecients{i} = fir1(obj.orders(i),obj.bands{i} / fs,kaiser(obj.orders(i)+1));
-                sketch_filter(obj.coeffecients{i},1,i);
+                obj.coeffecients{i} = fir1(obj.orders(i),obj.bands{i} / fn);
             end
             obj.EqlzdAudio = obj.eqaudio(audio);
         end

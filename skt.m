@@ -1,8 +1,9 @@
-function skt(sig1,sig2,fs,sig_name)
-    sketch=figure;
+function skt(sig1,sig2,fs,sig_name) %Sketch Comparison of 1 or 2 Signals
+    sketch=figure('Position',[100 70 2000 1200]);
     t=(0:size(sig1,1)-1)/fs;
-    if(length(sig2)>1)
+    if(length(sig2)>1) % 2 Signal Input
         title('Signal Comparison')
+        %Time Domain%
         subplot(2,2,1)
         plot(t,sig1,'k')
         grid on
@@ -13,6 +14,7 @@ function skt(sig1,sig2,fs,sig_name)
         grid on
         ylabel('signal2')
         xlabel('time')
+        %Frequency Domain%
         [P1,f1] = periodogram(sig1,[],[],fs,'power');
         [P2,f2] = periodogram(sig2,[],[],fs,'power');
         subplot(2,2,2)
@@ -25,7 +27,7 @@ function skt(sig1,sig2,fs,sig_name)
         grid on
         ylabel('signal2')
         xlabel('Frequency (Hz)')
-    else
+    else % 1 Signal Input
         title('Signal ')
         subplot(2,2,[1 2])
         plot(t,sig1,'b')

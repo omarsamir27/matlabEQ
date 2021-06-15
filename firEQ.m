@@ -12,14 +12,18 @@ classdef firEQ
             fn = fs/2;
             for i = 1:9
                 obj.coeffecients{i} = fir1(obj.orders(i),obj.bands{i} / fn);
+                sketch_filter(obj.coeffecients{i},1,i);
             end
             obj.EqlzdAudio = obj.eqaudio(audio);
+            skt(obj.EqlzdAudio,audio,fs,'CompositeVSOriginl');
         end
         function eqlzd = eqaudio(obj,audio)
             eqlzd = zeros(size(audio,1),size(audio,2));
             for i = 1:9
                 currentcoeff = obj.coeffecients{i};
-                eqlzd = filter(obj.gains(i)*currentcoeff,1,audio) + eqlzd;
+                filtered_part = filter(obj.gains(i)*currentcoeff,1,audio);
+                skt(filtered_part,[],fs,strcat('Band',num2str(i)));
+                eqlzd = filtered_part + eqlzd;
             end            
         end
     end
